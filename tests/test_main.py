@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 from surprise_travel_planning_agent.main import handler
 
@@ -110,7 +111,9 @@ async def test_handler_race_condition_prevention():
 @pytest.mark.asyncio
 async def test_handler_with_detailed_travel_query():
     """Test that handler can process detailed travel planning queries."""
-    messages = [{"role": "user", "content": "Plan a surprise romantic trip to Bali for honeymoon, 7 days, luxury budget"}]
+    messages = [
+        {"role": "user", "content": "Plan a surprise romantic trip to Bali for honeymoon, 7 days, luxury budget"}
+    ]
 
     mock_itinerary = "ROMANTIC BALI HONEYMOON ITINERARY\n\nDAY 1: Arrival at Denpasar Airport..."
 
@@ -165,7 +168,7 @@ async def test_handler_crew_exception():
 async def test_handler_edge_case_malformed_messages():
     """Test handler with edge case malformed messages."""
     # Test with non-list input
-    result = await handler("not a list")  # type: ignore
+    result = await handler("not a list")  # type: ignore[invalid-argument-type]
     assert result is not None
     assert isinstance(result, str)
     assert "Error" in result

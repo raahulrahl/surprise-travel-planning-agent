@@ -9,11 +9,11 @@ author: paras25619@gmail.com
 
 # Description
 description: |
-  An AI-powered travel planning assistant that designs personalized, surprise travel itineraries 
-  based on user preferences, budget, and interests. This skill transforms travel requests into 
-  complete, exciting travel adventures with destination suggestions, activity scheduling, 
-  accommodation recommendations, and detailed day-by-day planning. Using a crew of specialized 
-  AI agents, it researches destinations, finds activities, selects dining options, and compiles 
+  An AI-powered travel planning assistant that designs personalized, surprise travel itineraries
+  based on user preferences, budget, and interests. This skill transforms travel requests into
+  complete, exciting travel adventures with destination suggestions, activity scheduling,
+  accommodation recommendations, and detailed day-by-day planning. Using a crew of specialized
+  AI agents, it researches destinations, finds activities, selects dining options, and compiles
   comprehensive travel plans with all necessary details.
 
 # Tags and Modes
@@ -196,14 +196,14 @@ allowed_tools:
 # Rich Documentation
 documentation:
   overview: |
-    This agent specializes in surprise travel planning and personalized itinerary creation, 
-    transforming simple travel requests into comprehensive travel adventures. It employs a 
-    crew of specialized AI agents that work sequentially to research destinations, find 
+    This agent specializes in surprise travel planning and personalized itinerary creation,
+    transforming simple travel requests into comprehensive travel adventures. It employs a
+    crew of specialized AI agents that work sequentially to research destinations, find
     activities, select accommodations, plan transportation, and compile detailed itineraries.
 
-    The agent excels at understanding traveler preferences, budget constraints, and special 
-    requirements to create truly personalized travel experiences. It can handle various 
-    travel types including romantic getaways, family vacations, adventure trips, and 
+    The agent excels at understanding traveler preferences, budget constraints, and special
+    requirements to create truly personalized travel experiences. It can handle various
+    travel types including romantic getaways, family vacations, adventure trips, and
     cultural tours across different budget levels.
 
   use_cases:

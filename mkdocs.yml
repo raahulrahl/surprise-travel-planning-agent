@@ -1,11 +1,11 @@
 site_name: surprise-travel-planning-agent
 repo_url: https://github.com/Paraschamoli/surprise-travel-planning-agent
 site_url: https://Paraschamoli.github.io/surprise-travel-planning-agent
-site_description: Surprise Travel Planning Agent: An AI assistant that designs personalized, surprise travel itineraries based on user preferences, budget, and interests. It suggests destinations, activities, accommodations, and travel routes—turning trips into exciting, hassle-free adventures.
+site_description: "Surprise Travel Planning Agent: An AI assistant that designs personalized, surprise travel itineraries based on user preferences, budget, and interests. It suggests destinations, activities, accommodations, and travel routes—turning trips into exciting, hassle-free adventures."
 site_author: Paras Chamoli
 edit_uri: edit/main/docs/
 repo_name: Paraschamoli/surprise-travel-planning-agent
-copyright: Maintained by <a href="https://Paraschamoli.com">Paraschamoli</a>.
+copyright: 'Maintained by <a href="https://Paraschamoli.com">Paraschamoli</a>.'
 
 nav:
   - Home: index.md
@@ -18,8 +18,8 @@ plugins:
           paths: ["src/surprise_travel_planning_agent"]
 theme:
   name: material
-  feature:
-    tabs: true
+  features:
+    - navigation.tabs
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
