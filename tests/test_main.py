@@ -167,20 +167,24 @@ async def test_handler_crew_exception():
 @pytest.mark.asyncio
 async def test_handler_edge_case_malformed_messages():
     """Test handler with edge case malformed messages."""
-    # Test with non-list input
-    result = await handler("not a list")  # type: ignore[invalid-argument-type]
-    assert result is not None
-    assert isinstance(result, str)
-    assert "Error" in result
 
-    # Test with empty list
-    result = await handler([])
-    assert result is not None
-    assert isinstance(result, str)
-    assert "Please provide" in result
+    # We must patch _initialized to True to avoid triggering initialize_crew()
+    # which fails without API keys
+    with patch("surprise_travel_planning_agent.main._initialized", True):
+        # Test with non-list input
+        result = await handler("not a list")  # type: ignore[invalid-argument-type]
+        assert result is not None
+        assert isinstance(result, str)
+        assert "Error" in result
 
-    # Test with list but no user messages
-    result = await handler([{"role": "system", "content": "test"}])
-    assert result is not None
-    assert isinstance(result, str)
-    assert "Please provide" in result
+        # Test with empty list
+        result = await handler([])
+        assert result is not None
+        assert isinstance(result, str)
+        assert "Please provide" in result
+
+        # Test with list but no user messages
+        result = await handler([{"role": "system", "content": "test"}])
+        assert result is not None
+        assert isinstance(result, str)
+        assert "Please provide" in result
