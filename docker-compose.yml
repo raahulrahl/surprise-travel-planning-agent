@@ -1,0 +1,27 @@
+services:
+  surprise_travel_planning_agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: surprise_travel_planning_agent
+    ports:
+      - "3773:3773"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      
+
+    env_file:
+      - .env
+    volumes:
+      - ./surprise_travel_planning_agent:/app/surprise_travel_planning_agent
+      - ./agent_config.json:/app/agent_config.json
+    restart: unless-stopped
+    networks:
+      - surprise_travel_planning_agent-network
+    
+
+networks:
+  surprise_travel_planning_agent-network:
+    driver: bridge
+
+

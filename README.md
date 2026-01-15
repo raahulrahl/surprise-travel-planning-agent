@@ -2,31 +2,35 @@
   <img src="https://raw.githubusercontent.com/getbindu/create-bindu-agent/refs/heads/main/assets/light.svg" alt="bindu Logo" width="200">
 </p>
 
-<h1 align="center">surprise-travel-planning-agent</h1>
+<h1 align="center">Surprise Travel Planning Agent</h1>
+<h3 align="center">AI-Powered Personalized Trip Architect</h3>
 
 <p align="center">
-  <strong>Surprise Travel Planning Agent: An AI assistant that designs personalized, surprise travel itineraries based on user preferences, budget, and interests. It suggests destinations, activities, accommodations, and travel routes—turning trips into exciting, hassle-free adventures.</strong>
+  <strong>An intelligent travel agent that plans surprise trip itineraries with surgical precision. It fixes user typos, infers context (Romantic vs. Adventure), and generates strictly formatted day-by-day plans with activities and dining options.</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/Paraschamoli/surprise-travel-planning-agent/actions/workflows/main.yml?query=branch%3Amain">
-    <img src="https://img.shields.io/github/actions/workflow/status/Paraschamoli/surprise-travel-planning-agent/main.yml?branch=main" alt="Build status">
+    <img src="https://img.shields.io/github/actions/workflow/status/Paraschamoli/surprise-travel-planning-agent/main.yml?branch=main" alt="Build Status">
   </a>
-  <a href="https://img.shields.io/github/license/Paraschamoli/surprise-travel-planning-agent">
+  <a href="https://github.com/Paraschamoli/surprise-travel-planning-agent/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/Paraschamoli/surprise-travel-planning-agent" alt="License">
   </a>
+  <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/framework-bindu-purple" alt="Built with Bindu">
 </p>
 
 ---
 
 ## 📖 Overview
 
-Surprise Travel Planning Agent: An AI assistant that designs personalized, surprise travel itineraries based on user preferences, budget, and interests. It suggests destinations, activities, accommodations, and travel routes—turning trips into exciting, hassle-free adventures.. Built on the [Bindu Agent Framework](https://github.com/getbindu/bindu) for the Internet of Agents.
+The **Surprise Travel Planning Agent** takes vague user requests ("budjet trip to srilanka for a week") and transforms them into detailed, professionally structured itineraries. Unlike standard chatbots, it uses a multi-agent **CrewAI** system to research activities and dining separately, then compiles them into a cohesive plan that strictly adheres to the requested duration.
 
 **Key Capabilities:**
-- 🔍 [Add your key capabilities here]
-- ✅ [Add another capability]
-- 🚨 [Add another capability]
+- 🧠 **Smart Extraction:** Uses LLM to fix typos ("budjet" -> "Budget", "itlay" -> "Italy") and understand semantic time ("fortnight" -> 14 days).
+- 📅 **Strict Duration Control:** Guarantees itineraries match the *exact* number of days requested—no more, no less.
+- 👥 **Context Awareness:** Automatically detects trip vibes (Romantic, Family, Adventure, Luxury) from keywords.
+- 🍽️ **Dining & Activity Pairing:** Suggests restaurants conveniently located near daily activities.
 
 ---
 
@@ -36,7 +40,7 @@ Surprise Travel Planning Agent: An AI assistant that designs personalized, surpr
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv) package manager
-- API keys for OpenRouter and Mem0 (both have free tiers)
+- API key for OpenAI (GPT-4o) or OpenRouter
 
 ### Installation
 
@@ -46,7 +50,7 @@ git clone https://github.com/Paraschamoli/surprise-travel-planning-agent.git
 cd surprise-travel-planning-agent
 
 # Create virtual environment
-uv venv --python 3.12.9
+uv venv --python 3.12
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
@@ -58,12 +62,13 @@ cp .env.example .env
 
 ### Configuration
 
-Edit `.env` and add your API keys:
+Edit `.env` and add your API keys (choose one provider):
 
-| Key | Get It From | Required |
+| Key | Description | Required |
 |-----|-------------|----------|
-| `OPENROUTER_API_KEY` | [OpenRouter](https://openrouter.ai/keys) | ✅ Yes |
-| `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | If you want to use Mem0 tools |
+| `OPENAI_API_KEY` | For direct GPT-4o usage | ✅ Yes (Recommended) |
+| `OPENROUTER_API_KEY` | Alternative model provider | Optional |
+| `MEM0_API_KEY` | For persistent user preferences | Optional |
 
 ### Run the Agent
 
@@ -74,18 +79,6 @@ uv run python -m surprise_travel_planning_agent
 # Agent will be available at http://localhost:3773
 ```
 
-### Github Setup
-
-```bash
-# Initialize git repository and commit your code
-git init -b main
-git add .
-git commit -m "Initial commit"
-
-# Create repository on GitHub and push (replace with your GitHub username)
-gh repo create Paraschamoli/surprise-travel-planning-agent --public --source=. --remote=origin --push
-```
-
 ---
 
 ## 💡 Usage
@@ -93,82 +86,95 @@ gh repo create Paraschamoli/surprise-travel-planning-agent --public --source=. -
 ### Example Queries
 
 ```bash
-# Example query 1
-"[Add example query here]"
+# Basic request with typos
+"Plan a 5 days budjet trip to itlay for backpacking"
 
-# Example query 2
-"[Add another example]"
+# Semantic time request
+"I want a fortnight luxury vacation in parris for my honeymoon"
+
+# Implicit context
+"Weekend getaway to Tokyo with my kids"
 ```
 
-### Input Formats
+### How It Works
 
-**Plain Text:**
-```
-[Describe expected input format]
-```
-
-**JSON:**
-```json
-{
-  "content": "[example content]",
-  "focus": "[example focus]"
-}
-```
+1.  **Ingestion:** The agent receives your raw text.
+2.  **Extraction:** A specialized LLM step cleans the input, fixing typos and inferring context (e.g., "backpacking" -> Adventure Trip).
+3.  **Orchestration (CrewAI):**
+    *   **Activity Planner:** Finds venue-appropriate things to do.
+    *   **Restaurant Scout:** Finds meals near those activities.
+    *   **Itinerary Compiler:** Stitches it all together day-by-day.
+4.  **Validation:** A final logic check ensures the output length matches the requested days exactly.
 
 ### Output Structure
 
-The agent returns structured output with:
-- **[Output Component 1]**: Description
-- **[Output Component 2]**: Description
-- **[Output Component 3]**: Description
+```text
+**5-Day Adventure Itinerary in Italy**
+
+**Day 1: Arrival & Exploration**
+- Morning: Hike up to...
+- Lunch: Trattoria al Forno...
+- Afternoon: ...
+
+...
+
+[Continues for exactly 5 days]
+```
 
 ---
 
 ## 🔌 API Usage
 
-The agent exposes a RESTful API when running. Default endpoint: `http://localhost:3773` 
+The agent exposes a RESTful API compatible with the Bindu protocol.
 
-### Quick Start
+### Send Message Endpoint
 
-For complete API documentation, request/response formats, and examples, visit:
+**POST** `http://localhost:3773/chat`
 
-📚 **[Bindu API Reference - Send Message to Agent](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)**
+**Request:**
+```json
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Plan a 3 day surprise trip to Goa"
+    }
+  ]
+}
+```
 
+**Response:**
+```json
+{
+  "response": "**3-Day Itinerary for Goa**\n\nDay 1: Beach Vibes..."
+}
+```
 
-### Additional Resources
-
-- 📖 [Full API Documentation](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)
-- 📦 [Postman Collections](https://github.com/GetBindu/Bindu/tree/main/postman/collections)
-- 🔧 [API Reference](https://docs.getbindu.com)
+For complete API documentation, visit:
+📚 **[Bindu API Reference](https://docs.getbindu.com)**
 
 ---
 
 ## 🎯 Skills
 
-### surprise_travel_planning_agent (v1.0.0)
+### surprise-travel-planning (v1.0.0)
 
 **Primary Capability:**
-- [Describe what this skill does]
-- [Add key features]
+- Generating day-by-day travel itineraries based on natural language constraints.
 
 **Features:**
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
+- Typos correction & entity recognition
+- Activity/Restaurant coordination
+- Trip type classification (Budget, Luxury, Family, etc.)
 
 **Best Used For:**
-- [Use case 1]
-- [Use case 2]
-- [Use case 3]
+- Planning short to medium-length trips (2-14 days).
+- Generating ideas when you have a destination but no plan.
+- Quick "what if" scenario planning ("What would a luxury trip to Bali look like?").
 
 **Not Suitable For:**
-- [Anti-pattern 1]
-- [Anti-pattern 2]
-
-**Performance:**
-- Average processing time: ~[X] seconds
-- Max concurrent requests: [N]
-- Memory per request: [X]MB
+- Real-time flight booking or hotel reservations (it plans, doesn't book).
+- Trips longer than 3 weeks (LLM context limits may degrade detail).
 
 ---
 
@@ -185,52 +191,39 @@ docker-compose up --build
 
 ### Docker Configuration
 
-The agent runs on port `3773` and requires:
-- `OPENROUTER_API_KEY` environment variable
-- `MEM0_API_KEY` environment variable
+Ensure your `.env` file is populated before building. The Docker container maps port `3773` by default.
 
-Configure these in your `.env` file before running.
-
-### Production Deployment
-
-```bash
-# Use production compose file
-docker-compose -f docker-compose.prod.yml up -d
+```yaml
+version: '3.8'
+services:
+  agent:
+    build: .
+    ports:
+      - "3773:3773"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
 ```
 
 ---
 
 ## 🌐 Deploy to bindus.directory
 
-Make your agent discoverable worldwide and enable agent-to-agent collaboration.
+Make your agent discoverable worldwide on the Internet of Agents.
 
 ### Setup GitHub Secrets
 
-```bash
-# Authenticate with GitHub
-gh auth login
-
-# Set deployment secrets
-gh secret set BINDU_API_TOKEN --body "<your-bindu-api-key>"
-gh secret set DOCKERHUB_TOKEN --body "<your-dockerhub-token>"
-```
-
-Get your keys:
-- **Bindu API Key**: [bindus.directory](https://bindus.directory) dashboard
-- **Docker Hub Token**: [Docker Hub Security Settings](https://hub.docker.com/settings/security)
+1.  Go to your repo **Settings > Secrets and variables > Actions**.
+2.  Add the following secrets:
+    *   `BINDU_API_TOKEN`: Your API key from [bindus.directory](https://bindus.directory).
+    *   `DOCKERHUB_TOKEN`: Your Docker Hub access token.
+    *   `DOCKERHUB_USERNAME`: Your Docker Hub username.
 
 ### Deploy
 
 ```bash
-# Push to trigger automatic deployment
+# Push to main to trigger automatic deployment
 git push origin main
 ```
-
-GitHub Actions will automatically:
-1. Build your agent
-2. Create Docker container
-3. Push to Docker Hub
-4. Register on bindus.directory
 
 ---
 
@@ -241,60 +234,36 @@ GitHub Actions will automatically:
 ```
 surprise-travel-planning-agent/
 ├── surprise_travel_planning_agent/
-│   ├── skills/
-│   │   └── surprise_travel_planning_agent/
-│   │       ├── skill.yaml          # Skill configuration
-│   │       └── __init__.py
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── main.py                     # Agent entry point
-│   └── agent_config.json           # Agent configuration
+│   ├── main.py                     # 🧠 Core logic (LLM extraction + CrewAI)
+│   ├── skills/                     # Bindu skill definitions
+│   └── agent_config.json           # Agent metadata
 ├── tests/
-│   └── test_main.py
-├── .env.example
-├── docker-compose.yml
-├── Dockerfile.agent
-└── pyproject.toml
+│   └── test_main.py                # Pytest suite
+├── .env.example                    # Env var template
+├── pyproject.toml                  # Dependencies (uv)
+└── Dockerfile                      # Production build definition
 ```
 
 ### Running Tests
 
 ```bash
-make test              # Run all tests
-make test-cov          # With coverage report
-```
+# Run unit tests
+uv run pytest
 
-### Code Quality
-
-```bash
-make format            # Format code with ruff
-make lint              # Run linters
-make check             # Format + lint + test
-```
-
-### Pre-commit Hooks
-
-```bash
-# Install pre-commit hooks
-uv run pre-commit install
-
-# Run manually
-uv run pre-commit run -a
+# Run type checking
+uv run pre-commit run --all-files
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+We love contributions! Whether it's adding new trip types, improving the prompt engineering, or adding integration with booking APIs.
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature` 
-3. Commit your changes: `git commit -m 'Add amazing feature'` 
-4. Push to the branch: `git push origin feature/amazing-feature` 
-5. Open a Pull Request
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+1.  Fork the repo.
+2.  Create a branch: `git checkout -b feature/flight-search`
+3.  Commit changes.
+4.  Open a Pull Request.
 
 ---
 
@@ -306,40 +275,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Powered by Bindu
 
-Built with the [Bindu Agent Framework](https://github.com/getbindu/bindu)
+Built with the [Bindu Agent Framework](https://github.com/getbindu/bindu).
 
 **Why Bindu?**
-- 🌐 **Internet of Agents**: A2A, AP2, X402 protocols for agent collaboration
-- ⚡ **Zero-config setup**: From idea to production in minutes
-- 🛠️ **Production-ready**: Built-in deployment, monitoring, and scaling
-
-**Build Your Own Agent:**
-```bash
-uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
-```
-
----
-
-## 📚 Resources
-
-- 📖 [Full Documentation](https://Paraschamoli.github.io/surprise-travel-planning-agent/)
-- 💻 [GitHub Repository](https://github.com/Paraschamoli/surprise-travel-planning-agent/)
-- 🐛 [Report Issues](https://github.com/Paraschamoli/surprise-travel-planning-agent/issues)
-- 💬 [Join Discord](https://discord.gg/3w5zuYUuwt)
-- 🌐 [Agent Directory](https://bindus.directory)
-- 📚 [Bindu Documentation](https://docs.getbindu.com)
-
----
+- ⚡ **Zero-config setup:** Focus on logic, not infrastructure.
+- 🛠️ **Production-ready:** Built-in HTTP server, protocol handling, and dockerization.
+- 🌐 **Interoperable:** Ready for the Internet of Agents.
 
 <p align="center">
-  <strong>Built with 💛 by the team from Amsterdam 🌷</strong>
+  <strong>Built with ❤️ by Paras Chamoli</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Paraschamoli/surprise-travel-planning-agent">⭐ Star this repo</a> •
+  <a href="https://github.com/Paraschamoli/surprise-travel-planning-agent/stargazers">⭐ Star this repo</a> •
   <a href="https://discord.gg/3w5zuYUuwt">💬 Join Discord</a> •
   <a href="https://bindus.directory">🌐 Agent Directory</a>
 </p>
-
-#   s u r p r i s e - t r a v e l - p l a n n i n g - a g e n t  
- 
