@@ -2,12 +2,11 @@
 name = "surprise-travel-planning-agent"
 version = "0.0.1"
 description = "Surprise Travel Planning Agent: An AI assistant that designs personalized, surprise travel itineraries based on user preferences, budget, and interests. It suggests destinations, activities, accommodations, and travel routes—turning trips into exciting, hassle-free adventures."
-authors = [{ name = "Paras Chamoli", email = "paras25619@gmail.com" }]
+authors = [{ name = "Paras Chamoli", email = "paras@getbindu.com" }]
 readme = "README.md"
 keywords = ['python']
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "bindu==2026.9.2.2",
     "crewai>=0.80.0",
     "crewai-tools>=0.1.0",
     "langchain>=0.1.0",
@@ -17,11 +16,11 @@ dependencies = [
     "pyperclip>=1.8.0",
     "rich>=13.0.0",
     "openai>=2.11.0",
-    "sqlalchemy>=2.0.44",
     "mem0ai>=1.0.1",
     "ddgs>=9.9.3",
     "python-dotenv>=1.0.1",
     "pyyaml>=6.0",
+    "bindu==2026.9.4",
 ]
 classifiers = [
     "Intended Audience :: Developers",

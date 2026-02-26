@@ -31,7 +31,7 @@ FROM raahulrahl/bindu-runtime-base:latest
 # OCI labels
 LABEL org.opencontainers.image.title="surprise-travel-planning-agent"
 LABEL org.opencontainers.image.description="Surprise Travel Planning Agent: An AI assistant that designs personalized, surprise travel itineraries based on user preferences, budget, and interests. It suggests destinations, activities, accommodations, and travel routes—turning trips into exciting, hassle-free adventures."
-LABEL org.opencontainers.image.authors="Paras Chamoli <paras25619@gmail.com>"
+LABEL org.opencontainers.image.authors="Paras Chamoli <paras@getbindu.com>"
 LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.source="https://github.com/Paraschamoli/surprise-travel-planning-agent"
 LABEL org.opencontainers.image.licenses="MIT"

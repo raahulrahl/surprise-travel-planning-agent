@@ -1,444 +1,280 @@
-# Surprise Travel Planning and Itinerary Development Skill
-# AI-powered travel planning assistant combining destination research, activity scheduling, and personalized itinerary creation
-
-# Basic Metadata
 id: surprise-travel-planning-v1
 name: surprise-travel-planning
 version: 1.0.0
-author: paras25619@gmail.com
+author: paras@getbindu.com
 
 # Description
 description: |
-  An AI-powered travel planning assistant that designs personalized, surprise travel itineraries
-  based on user preferences, budget, and interests. This skill transforms travel requests into
-  complete, exciting travel adventures with destination suggestions, activity scheduling,
-  accommodation recommendations, and detailed day-by-day planning. Using a crew of specialized
-  AI agents, it researches destinations, finds activities, selects dining options, and compiles
-  comprehensive travel plans with all necessary details.
+  An AI-powered itinerary generation agent that creates day-by-day travel plans based on
+  user input. Uses three CrewAI agents (Activity Planner, Restaurant Scout, Itinerary Compiler)
+  to generate text-based travel itineraries with activity and dining suggestions. Extracts
+  travel parameters from natural language input including destination, duration, trip type,
+  and traveler details. Returns formatted text itineraries with daily schedules.
 
 # Tags and Modes
 tags:
   - travel-planning
-  - itinerary
+  - itinerary-generation
   - trip-planning
-  - vacation
-  - adventure
-  - destination-research
-  - activity-scheduling
-  - personalized-travel
-  - surprise-trip
-  - holiday-planning
-  - tourism
-  - budget-travel
-  - luxury-travel
-  - family-vacation
-  - romantic-getaway
+  - text-generation
+  - crewai
+  - llm-agent
 
 input_modes:
   - text/plain
-  - application/json
 
 output_modes:
   - text/plain
-  - application/json
-  - text/markdown
 
 # Example Queries
 examples:
   - "Plan a surprise romantic getaway to Paris for 7 days"
-  - "Create a family vacation itinerary to Tokyo with kids aged 5 and 8"
-  - "Design a budget backpacking trip through Southeast Asia for 3 weeks"
-  - "Organize a luxury honeymoon package to the Maldives"
-  - "Plan a surprise birthday trip to New York City for a food lover"
+  - "Create a family vacation itinerary to Tokyo with kids"
+  - "Organize a luxury honeymoon package to the Maldives for a couple"
+  - "Plan a weekend trip to New York City"
 
 # Detailed Capabilities
 capabilities_detail:
-  destination_research:
+  parameter_extraction:
     supported: true
-    levels:
-      - city_research
-      - country_research
-      - regional_research
-      - multi_destination
-    aspects:
-      - attractions
-      - cultural_sites
-      - natural_wonders
-      - local_events
-      - seasonal_considerations
-      - weather_analysis
-      - tourist_seasons
+    description: "Extracts travel parameters from natural language input using LLM"
+    extracted_fields:
+      - destination
+      - trip_duration
+      - trip_context
+      - age_suitability
+      - hotel_type_suggestion
+      - origin_city
+    features:
+      - typo_correction
+      - semantic_understanding
+      - duration_parsing
 
-  activity_planning:
+  activity_suggestions:
     supported: true
-    categories:
-      - adventure_activities
-      - cultural_experiences
-      - culinary_tours
-      - shopping_destinations
-      - relaxation_spots
-      - nightlife_venues
-      - family_friendly
-      - romantic_experiences
-      - educational_tours
-    planning_factors:
-      - age_appropriateness
-      - physical_difficulty
-      - time_requirements
-      - budget_fit
-      - seasonal_availability
+    description: "Generates activity suggestions using Activity Planner agent"
+    output_format: "Text-based daily activity lists"
+    limitations:
+      - "No real-time availability checking"
+      - "No booking integration"
+      - "No pricing information"
 
-  accommodation_selection:
+  dining_recommendations:
     supported: true
-    types:
-      - hotels
-      - resorts
-      - vacation_rentals
-      - hostels
-      - boutique_accommodations
-      - luxury_properties
-      - budget_options
-    selection_criteria:
-      - location_analysis
-      - price_range_matching
-      - amenity_requirements
-      - review_analysis
-      - accessibility_features
-
-  transportation_planning:
-    supported: true
-    modes:
-      - flights
-      - trains
-      - rental_cars
-      - public_transport
-      - private_transfers
-      - local_taxis
-      - walking_routes
-    considerations:
-      - cost_optimization
-      - time_efficiency
-      - comfort_level
-      - luggage_requirements
-      - connectivity
+    description: "Suggests dining options using Restaurant Scout agent"
+    output_format: "Text-based meal suggestions per day"
+    limitations:
+      - "No real-time restaurant data"
+      - "No reservation system"
+      - "No pricing information"
 
   itinerary_compilation:
     supported: true
+    description: "Compiles day-by-day itineraries using Itinerary Compiler agent"
     formats:
       - day_by_day_schedule
-      - hourly_breakdown
-      - flexible_itinerary
-      - themed_itinerary
-      - budget_tracker
-      - emergency_contacts
-      - local_resources
-    customization:
-      - personal_preferences
-      - special_requirements
-      - dietary_restrictions
-      - mobility_considerations
-      - language_preferences
+    validation:
+      - "Validates correct number of days in output"
+      - "Auto-corrects if day count mismatches"
+    limitations:
+      - "Text output only"
+      - "No structured JSON itinerary"
+      - "No cost calculations"
 
-  budget_management:
-    supported: true
-    components:
-      - accommodation_costs
-      - transportation_costs
-      - activity_costs
-      - dining_costs
-      - miscellaneous_expenses
-      - emergency_fund
-    budget_levels:
-      - backpacker
-      - budget
-      - mid_range
-      - luxury
-      - ultra_luxury
+  not_supported:
+    booking: "No booking capabilities for flights, hotels, or activities"
+    pricing: "No real-time pricing or cost calculations"
+    external_apis: "No integration with travel booking APIs"
+    memory: "No conversation memory between requests"
+    multi_destination: "Single destination per request only"
+    budget_tracking: "No actual budget management or cost tracking"
 
 # Requirements
 requirements:
   packages:
     - crewai>=0.80.0
-    - crewai-tools>=0.1.0
-    - langchain>=0.1.0
-    - langchain-openai>=0.0.5
-    - openai>=2.11.0
     - bindu==2026.1.12
     - python-dotenv>=1.0.1
-    - pyyaml>=6.0
-    - requests>=2.31.0
   system: []
   min_memory_mb: 512
   external_services:
-    - OpenRouter API (or OpenAI API)
-    - Mem0 API (optional, for memory features)
+    - OpenRouter API (required) OR OpenAI API (required)
+  environment_variables:
+    - OPENROUTER_API_KEY (required if using OpenRouter)
+    - OPENAI_API_KEY (required if using OpenAI directly)
+    - MODEL_NAME (optional, defaults to openai/gpt-4o)
 
 # Performance Metrics
 performance:
-  avg_processing_time_ms: 15000
-  avg_time_per_agent_ms: 3000
-  max_concurrent_requests: 3
-  memory_per_request_mb: 512
-  timeout_seconds: 180
+  avg_processing_time_seconds: 15-30
+  process_type: sequential
+  agent_count: 3
+  memory_enabled: false
   max_input_length_chars: 5000
-  scalability: vertical
+  notes: "Processing time depends on LLM response time"
 
-# Tool Restrictions
-allowed_tools:
-  - Research
-  - Analyze
-  - Plan
-  - Schedule
-  - Recommend
-  - Calculate
-  - Generate
+# Agent Configuration
+agents:
+  - name: "Activity Planner"
+    role: "Personalized Activity Planner"
+    delegation: false
+  - name: "Restaurant Scout"
+    role: "Restaurant Scout"
+    delegation: false
+  - name: "Itinerary Compiler"
+    role: "Itinerary Compiler"
+    delegation: true
 
 # Rich Documentation
 documentation:
   overview: |
-    This agent specializes in surprise travel planning and personalized itinerary creation,
-    transforming simple travel requests into comprehensive travel adventures. It employs a
-    crew of specialized AI agents that work sequentially to research destinations, find
-    activities, select accommodations, plan transportation, and compile detailed itineraries.
+    This agent generates text-based travel itineraries using three CrewAI agents working
+    sequentially. It accepts natural language travel requests, extracts parameters using
+    LLM-based parsing, and produces day-by-day itineraries with activity and dining suggestions.
 
-    The agent excels at understanding traveler preferences, budget constraints, and special
-    requirements to create truly personalized travel experiences. It can handle various
-    travel types including romantic getaways, family vacations, adventure trips, and
-    cultural tours across different budget levels.
+    The agent uses parameter extraction to handle typos and semantic understanding (e.g.,
+    "budjet" -> "budget", "backpacking" -> "adventure trip"). Output is validated to ensure
+    the correct number of days matches the request.
 
   use_cases:
     when_to_use:
-      - User wants a complete travel plan for an upcoming trip
-      - User needs inspiration for destination choices
-      - User wants personalized activity recommendations
-      - User needs help with itinerary scheduling and logistics
-      - User wants to surprise someone with a planned trip
-      - User needs budget planning for travel expenses
-      - User requires accessibility or special needs planning
+      - User wants a text-based itinerary suggestion for a trip
+      - User needs activity and dining ideas for a destination
+      - User wants a structured day-by-day plan
+      - User provides destination and duration information
 
     when_not_to_use:
-      - Simple flight or hotel booking (use booking agent)
-      - Real-time travel updates or alerts (use travel alert system)
-      - Visa or immigration assistance (use legal/travel documentation agent)
-      - Currency exchange calculations (use finance calculator)
-      - Travel insurance purchases (use insurance agent)
+      - User needs actual bookings (no booking capability)
+      - User needs real-time pricing or availability (no external API integration)
+      - User needs multi-destination itineraries (single destination only)
+      - User needs budget calculations (no cost tracking)
+      - User needs transportation booking (suggestions only, no booking)
+      - User needs specific restaurant reservations (suggestions only)
 
   input_structure: |
-    Accepts travel planning requests with optional specifications:
+    Accepts natural language text describing travel requests. The agent extracts parameters
+    automatically using LLM-based parsing.
 
-    {
-      "query": "Travel planning request or description",
-      "destination_preference": "specific city/country or 'surprise me'",
-      "travel_dates": "start_date to end_date or duration",
-      "travelers": {
-        "number": 2,
-        "ages": [30, 28],
-        "type": "couple/family/friends/solo"
-      },
-      "budget_level": "backpacker/budget/mid-range/luxury",
-      "interests": ["beach", "food", "culture", "adventure"],
-      "special_requirements": ["vegetarian", "wheelchair_access", "pet_friendly"]
-    }
+    Example inputs:
+    - "Plan a 7-day romantic getaway to Paris"
+    - "Create a family vacation to Tokyo with kids for 5 days"
+    - "Organize a luxury honeymoon to the Maldives"
+    - "Budget backpacking trip to Thailand for a week"
 
-    Query constraints:
+    Extracted parameters:
+    - destination: City/country name (typo-corrected)
+    - trip_duration: Number of days (parsed from text like "week" = 7 days)
+    - trip_context: Inferred from keywords (romantic, family, adventure, budget, luxury)
+    - age: Inferred age suitability
+    - hotel_location: Suggested accommodation type based on context
+    - origin: Origin city if mentioned
+
+    Constraints:
     - Max input length: 5000 characters
-    - Max agents in crew: 5
-    - Timeout: 180 seconds
-    - Supported languages: English primary
+    - Single destination per request
+    - Text input only
 
   output_format: |
-    Standard Travel Itinerary Output:
-    {
-      "success": true,
-      "itinerary": {
-        "title": "Personalized Travel Itinerary",
-        "travel_summary": {
-          "destination": "City, Country",
-          "duration": "7 days",
-          "travelers": "2 adults",
-          "total_estimated_cost": "$2,500"
-        },
-        "daily_schedule": [
-          {
-            "day": 1,
-            "date": "2024-06-15",
-            "theme": "Arrival & Acclimation",
-            "activities": [
-              {
-                "time": "14:00",
-                "activity": "Hotel Check-in",
-                "location": "Hotel Name, Address",
-                "description": "Check into your accommodation",
-                "duration": "1 hour",
-                "cost": "Included"
-              }
-            ],
-            "meals": {
-              "breakfast": "Hotel breakfast",
-              "lunch": "Local café recommendation",
-              "dinner": "Fine dining restaurant"
-            },
-            "transportation": "Airport transfer included",
-            "accommodation": "Hotel Name, Room Type",
-            "notes": "Jet lag recovery day"
-          }
-        ],
-        "important_information": {
-          "emergency_contacts": ["Local emergency: 112"],
-          "currency": "EUR (Euro)",
-          "language": "French (English widely spoken)",
-          "time_zone": "CET (UTC+1)",
-          "electrical_plugs": "Type E"
-        },
-        "budget_breakdown": {
-          "accommodation": "$1,200",
-          "transportation": "$500",
-          "activities": "$400",
-          "dining": "$300",
-          "miscellaneous": "$100"
-        }
-      },
-      "metadata": {
-        "query": "original_query",
-        "processing_time_ms": 12000,
-        "agents_used": 3,
-        "tasks_completed": 3,
-        "crew_workflow": "sequential"
-      }
-    }
+    Plain text itinerary format:
 
-    Destination Recommendations Output:
-    {
-      "success": true,
-      "recommendations": [
-        {
-          "destination": "Bali, Indonesia",
-          "best_for": "Romantic getaways, Beach lovers",
-          "best_time_to_visit": "April-October",
-          "highlights": ["Ubud temples", "Beach clubs", "Rice terraces"],
-          "estimated_cost_for_week": "$1,800-2,500",
-          "travel_tips": ["Learn basic Indonesian phrases", "Respect temple dress codes"]
-        }
-      ],
-      "metadata": {
-        "processing_time_ms": 8000,
-        "agents_used": 2
-      }
-    }
+    Day 1: [Theme]
+    - Morning: [Activity description]
+    - Lunch: [Restaurant/dining suggestion]
+    - Afternoon: [Activity description]
+    - Dinner: [Restaurant/dining suggestion]
+    - Evening: [Optional activity]
+
+    Day 2: [Theme]
+    - Morning: [Activity description]
+    - Lunch: [Restaurant/dining suggestion]
+    - Afternoon: [Activity description]
+    - Dinner: [Restaurant/dining suggestion]
+    - Evening: [Optional activity]
+
+    [Continues for requested number of days]
+
+    Practical Tips:
+    - [Tip 1]
+    - [Tip 2]
+
+    Conclusion:
+    [Summary text]
+
+    Notes:
+    - Output is plain text, not structured JSON
+    - No pricing information included
+    - No booking links or reservation details
+    - Itinerary is validated to match requested number of days
 
   error_handling:
-    - "Destination not found: Suggests similar alternatives or asks for clarification"
-    - "Budget too low: Provides budget-friendly alternatives or suggests adjusting expectations"
-    - "No available activities: Expands search criteria or suggests different dates"
-    - "API rate limits: Queues requests or suggests simpler queries"
-    - "Crew initialization failed: Returns initialization error with troubleshooting steps"
-    - "Timeout: Returns partial itinerary with completion percentage"
-    - "Unclear input: Provides guidance on acceptable input formats"
+    - "Crew not initialized: Returns error message"
+    - "No API key: Returns error requesting OPENAI_API_KEY or OPENROUTER_API_KEY"
+    - "LLM extraction failed: Falls back to default parameters"
+    - "Crew execution failed: Returns error message with exception details"
+    - "Invalid input: Requests travel details from user"
+    - "Day count mismatch: Auto-corrects itinerary or returns error if too few days generated"
 
   examples:
     - title: "Romantic Paris Getaway"
-      input:
-        query: "Plan a surprise romantic trip to Paris for 7 days"
-        travelers:
-          number: 2
-          type: "couple"
-        budget_level: "mid-range"
-        interests: ["romance", "food", "culture"]
-      output:
-        success: true
-        itinerary:
-          title: "Romantic Parisian Escape - 7 Days"
-          travel_summary:
-            destination: "Paris, France"
-            duration: "7 days"
-            total_estimated_cost: "$3,200"
-        metadata:
-          processing_time_ms: 14500
-          agents_used: 3
+      input: "Plan a surprise romantic getaway to Paris for 7 days"
+      output_sample: |
+        Day 1: Arrival and Seine River Cruise
+        - Morning: Arrive in Paris and check into your luxury resort.
+        - Lunch: Savor a light lunch at Café de Flore...
+        - Afternoon: Relax and explore the hotel amenities.
+        - Dinner: Dine at Le Cinq, a Michelin-starred restaurant...
+        - Evening: Enjoy a Seine River Cruise at sunset...
 
-    - title: "Family Tokyo Adventure"
-      input:
-        query: "Create a family vacation to Tokyo with kids aged 5 and 8"
-        travelers:
-          number: 4
-          ages: [35, 33, 8, 5]
-          type: "family"
-        budget_level: "mid-range"
-        interests: ["family_friendly", "anime", "technology"]
-      output:
-        success: true
-        itinerary:
-          title: "Tokyo Family Adventure - 10 Days"
-          travel_summary:
-            destination: "Tokyo, Japan"
-            duration: "10 days"
-            total_estimated_cost: "$5,800"
-        metadata:
-          processing_time_ms: 18000
-          agents_used: 3
+        [Continues for 7 days]
 
-    - title: "Southeast Asia Backpacking"
-      input:
-        query: "Design a budget backpacking trip through Southeast Asia for 3 weeks"
-        destination_preference: "surprise me"
-        travelers:
-          number: 1
-          type: "solo"
-        budget_level: "backpacker"
-        interests: ["adventure", "local_culture", "budget_travel"]
-      output:
-        success: true
-        itinerary:
-          title: "Southeast Asia Backpacking Adventure - 21 Days"
-          travel_summary:
-            destination: "Thailand, Cambodia, Vietnam"
-            duration: "21 days"
-            total_estimated_cost: "$1,200"
-        metadata:
-          processing_time_ms: 22000
-          agents_used: 3
+        Practical Tips:
+        - Book tours and restaurants in advance
+        - Pack comfortable walking shoes
+
+        Conclusion:
+        Have a wonderful trip and enjoy the romance of Paris!
+
+    - title: "Maldives Honeymoon"
+      input: "Organize a luxury honeymoon package to the Maldives for a couple"
+      output_sample: |
+        Day 1: Arrival and Relaxation
+        - Morning: Arrival at the luxury resort with a welcome drink...
+        - Lunch: Enjoy a gourmet picnic lunch on the private beach...
+        - Afternoon: Relax with a couple's spa treatment...
+
+        [Continues for default 3 days if duration not specified]
 
   best_practices:
-    for_developers:
-      - "Provide specific travel dates or seasons for accurate recommendations"
-      - "Include traveler ages and composition for age-appropriate activities"
-      - "Specify budget level clearly for appropriate recommendations"
-      - "List key interests to prioritize relevant activities"
-      - "Mention any special requirements or restrictions upfront"
-      - "Use the budget breakdown to adjust plans if needed"
+    for_users:
+      - "Include destination and duration in your request"
+      - "Specify trip type (romantic, family, adventure, budget, luxury)"
+      - "Mention traveler details if relevant (kids, age groups)"
+      - "Use natural language - typos will be corrected"
 
     for_orchestrators:
-      - "Route travel planning and itinerary requests to this agent"
-      - "Chain with translation agents for multilingual itineraries"
-      - "Combine with booking agents for actual reservations"
-      - "Use with weather agents for seasonal planning"
-      - "Consider input complexity when setting timeout values"
-      - "Implement caching for popular destination queries"
+      - "Route itinerary generation requests to this agent"
+      - "Do NOT route booking requests (no booking capability)"
+      - "Do NOT route pricing requests (no cost calculation)"
+      - "Single destination per request only"
+      - "Expect 15-30 second processing time"
+      - "Output is plain text, not structured JSON"
 
   installation: |
     Required packages:
-    pip install crewai crewai-tools langchain langchain-openai bindu openai python-dotenv pyyaml requests
+    pip install crewai>=0.80.0 bindu==2026.1.12 python-dotenv>=1.0.1
 
-    Environment variables:
+    Environment variables (one required):
     OPENROUTER_API_KEY=your_openrouter_api_key
-    OPENAI_API_KEY=your_openai_api_key  # Alternative
-    MEM0_API_KEY=your_mem0_api_key  # Optional
-    MODEL_NAME=openai/gpt-4o  # Optional, default
+    OR
+    OPENAI_API_KEY=your_openai_api_key
 
-    For travel research:
-    # No additional system dependencies required
-    # Uses internet search tools via CrewAI tools
+    Optional:
+    MODEL_NAME=openai/gpt-4o  # Default model
 
   versioning:
     - version: "1.0.0"
-      date: "2026-01-15"
-      changes: "Initial release with 3-agent crew for destination research, activity planning, and itinerary compilation"
-    - version: "1.1.0"
-      status: "planned"
-      changes: "Add integration with travel booking APIs and real-time availability"
-    - version: "1.2.0"
-      status: "planned"
-      changes: "Enhanced budget tracking and currency conversion features"
+      date: "2026-02-26"
+      changes: "Initial release with 3-agent CrewAI crew for itinerary generation"
 
 # Assessment fields for skill negotiation
 assessment:
@@ -449,56 +285,60 @@ assessment:
     - itinerary
     - planning
     - destination
-    - adventure
-    - holiday
     - getaway
-    - tourism
-    - backpacking
-    - luxury
-    - budget
-    - family
     - romantic
-    - solo
-    - group
+    - family
+    - honeymoon
+    - adventure
     - schedule
     - activities
-    - accommodation
-    - transportation
+    - dining
+    - day-by-day
 
   specializations:
+    - domain: itinerary_generation
+      confidence_boost: 0.5
     - domain: travel_planning
-      confidence_boost: 0.4
-    - domain: itinerary_creation
       confidence_boost: 0.3
-    - domain: destination_research
+    - domain: activity_suggestions
       confidence_boost: 0.2
-    - domain: budget_travel
-      confidence_boost: 0.1
 
   anti_patterns:
     - "flight booking"
+    - "hotel booking"
     - "hotel reservation"
+    - "book a flight"
+    - "reserve accommodation"
     - "visa application"
     - "currency exchange"
     - "travel insurance"
-    - "real-time alerts"
-    - "weather forecasts"
-    - "language translation"
+    - "real-time prices"
+    - "current availability"
+    - "weather forecast"
+    - "translation"
+    - "multi-destination"
+    - "multiple cities"
+    - "budget calculation"
+    - "cost breakdown"
 
   complexity_indicators:
     simple:
-      - "weekend getaway"
+      - "weekend trip"
       - "short trip"
       - "single destination"
       - "basic itinerary"
+      - "2-3 days"
     medium:
-      - "multi-city trip"
+      - "week-long trip"
       - "family vacation"
-      - "special interest travel"
-      - "detailed scheduling"
+      - "romantic getaway"
+      - "5-7 days"
     complex:
+      - "extended trip"
+      - "10+ days"
+      - "detailed scheduling"
+    not_supported:
       - "multi-country tour"
-      - "custom luxury package"
-      - "special needs planning"
-      - "surprise mystery trip"
-      - "extended backpacking"
+      - "multi-city trip"
+      - "actual bookings"
+      - "real-time pricing"

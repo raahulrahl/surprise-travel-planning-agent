@@ -488,7 +488,7 @@ async def run_crew(input_text: str) -> str:
         print(f"⚠️  STRICT CONSTRAINT: Itinerary MUST be EXACTLY {trip_duration_numeric} days")
 
         # Run the crew
-        result = crew.kickoff(inputs=inputs)
+        result = await crew.kickoff_async(inputs=inputs)
 
         # Get the text - CrewAI returns the result directly
         itinerary = str(result)
