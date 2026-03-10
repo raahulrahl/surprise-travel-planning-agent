@@ -20,8 +20,6 @@
 
 ---
 
-[Postman Collection](https://raahul-1409c5b4-717533.postman.co/workspace/getbindu's-Workspace~44eb7cfe-a752-4114-8a1a-631395f07bf1/collection/50606358-d13e2618-5618-48ba-8885-a1d607f1879d?action=share&creator=50606358)
-
 ## 📖 Overview
 
 The **Surprise Travel Planning Agent** takes vague user requests ("budjet trip to srilanka for a week") and transforms them into detailed, professionally structured itineraries. Unlike standard chatbots, it uses a multi-agent **CrewAI** system to research activities and dining separately, then compiles them into a cohesive plan that strictly adheres to the requested duration.
