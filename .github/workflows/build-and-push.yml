@@ -81,11 +81,11 @@ jobs:
               "description": "${{ fromJson(steps.agent_config.outputs.config).description }}",
               "version": "${{ steps.agent_config.outputs.version }}",
               "agent_trust": "${{ fromJson(steps.agent_config.outputs.config).agent_trust }}",
-              "type": "research"
+              "type": "travel"
             },
             "skills": ${{ toJson(fromJson(steps.agent_config.outputs.skills)) }},
             "framework": {
-              "name": "crew",
+              "name": "agno",
               "version": "1.0.0"
             },
             "environment_variables": ${{ toJson(fromJson(steps.agent_config.outputs.config).environment_variables) }},
@@ -104,7 +104,7 @@ jobs:
               "build_number": "${{ github.run_number }}"
             },
             "metadata": {
-              "documentation_url": "https://Paraschamoli.github.io/surprise-travel-planning-agent/",
+              "documentation_url": "https://github.com/${{ github.repository }}#readme",
               "domain": "${{ fromJson(steps.agent_config.outputs.config).metadata.domain || 'general' }}",
               "specialization": "${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}",
               "last_updated": "${{ github.event.head_commit.timestamp }}"
